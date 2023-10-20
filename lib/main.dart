@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'package:cinemapedia/config/router/app_router.dart';
+import 'package:cinemapedia/config/theme/app_theme.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -9,13 +12,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp.router(
+      routerConfig: appRouter,
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
+      theme: AppTheme().getTheme(),
     );
   }
 }
