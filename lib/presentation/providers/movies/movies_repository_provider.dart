@@ -15,7 +15,7 @@ final movieRepositoryProvider = Provider((ref) {
 * Este nueve archivo va a ser quien va a crear la instancia de ese
 * "MovieRepositoryImpl" y le voy a poner "movies_repository_provider"
 * porque quiero proveer mi repositorio. Como esto va a ser  un archivo
-* que yo no lo voy a cambiar, es decir una vez lo crelo, ya no va a ser
+* que yo no lo voy a cambiar, es decir una vez lo creo, ya no va a ser
 * modificado nunca más en su existencia, entonces puede ser un provider
 * únicamente de lectura.
 *
