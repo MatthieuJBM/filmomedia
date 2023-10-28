@@ -15,7 +15,6 @@ class CustomAppbar extends StatelessWidget {
         child: SizedBox(
           width: double.infinity,
           child: Row(
-            //mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Icon(
                 Icons.movie_outlined,
