@@ -49,7 +49,7 @@ class _HomeViewState extends ConsumerState<_HomeView> {
       return const Center(child: CircularProgressIndicator());
     }
 
-    return Placeholder();
+    return FullScreenLoader();
 
     return CustomScrollView(
       slivers: [
