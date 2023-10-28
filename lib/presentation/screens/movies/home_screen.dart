@@ -38,18 +38,18 @@ class _HomeViewState extends ConsumerState<_HomeView> {
 
   @override
   Widget build(BuildContext context) {
+    final initialLoading = ref.watch(initialLoadingProvider);
+    if (initialLoading) return const FullScreenLoader();
+
     final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
     final slideShowMovies = ref.watch(moviesSlideshowProvider);
     final popularMovies = ref.watch(popularMoviesProvider);
     final upcomingMovies = ref.watch(upcomingMoviesProvider);
     final topRatedMovies = ref.watch(topRatedMoviesProvider);
 
-
     if (slideShowMovies.isEmpty) {
       return const Center(child: CircularProgressIndicator());
     }
-
-    return FullScreenLoader();
 
     return CustomScrollView(
       slivers: [
@@ -59,7 +59,6 @@ class _HomeViewState extends ConsumerState<_HomeView> {
             title: CustomAppbar(),
           ),
         ),
-
         SliverList(
             delegate: SliverChildBuilderDelegate(
           (context, index) {
@@ -79,25 +78,22 @@ class _HomeViewState extends ConsumerState<_HomeView> {
                   movies: upcomingMovies,
                   title: 'Próximamente',
                   subTitle: 'En este mes',
-                  loadNextPage: () => ref
-                      .read(upcomingMoviesProvider.notifier)
-                      .loadNextPage(),
+                  loadNextPage: () =>
+                      ref.read(upcomingMoviesProvider.notifier).loadNextPage(),
                 ),
                 MovieHorizontalListview(
                   movies: popularMovies,
                   title: 'Populares',
                   //subTitle: '',
-                  loadNextPage: () => ref
-                      .read(popularMoviesProvider.notifier)
-                      .loadNextPage(),
+                  loadNextPage: () =>
+                      ref.read(popularMoviesProvider.notifier).loadNextPage(),
                 ),
                 MovieHorizontalListview(
                   movies: topRatedMovies,
                   title: 'Mejor calificadas',
                   subTitle: 'Desde siempre',
-                  loadNextPage: () => ref
-                      .read(topRatedMoviesProvider.notifier)
-                      .loadNextPage(),
+                  loadNextPage: () =>
+                      ref.read(topRatedMoviesProvider.notifier).loadNextPage(),
                 ),
                 const SizedBox(height: 10),
               ],
