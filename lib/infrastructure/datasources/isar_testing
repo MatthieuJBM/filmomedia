@@ -1,0 +1,20 @@
+1. Jak reaguje Isar gdy zmieniaja sie klasy?
+
+2. Gdy zostaną dodane nowe pola do klasy?
+
+3. Co się dzieje jak dochodzą nowe pola i jak to zrobić, żeby to nie było problemem?
+
+4. Gdy pola już istniejące przestają być używane, bo nie są już potrzebne, zy można je usunąć?
+
+5. Co zrobić, żeby to nie sprawiało problemu? Mam w movies tytuł i date wydania, stwierdzamy, ze
+   data wydania nie jest potrzebna, a dodatkowo doklejamy trzecie pole jakiekolwiek ale innego
+   typu niż poprzednie. 1. Dodawnie. 2. usuwanie 3. mieszanka 1 i 2. Nadpisywanie. 4.
+
+6. Co się dzieje w Isar gdy typ zmienia się ze zwykłego na nullable, albo z nullable na zwykły?
+
+7. Mam w bazie zapisane String, a później zmieniam na null i co się stanie? Z nullable String
+   na zwykłego String zmieniam, co się dzieje? Na kilku obiektach, różnych typów zrobić testy.
+
+8. Czy dane zostały zniekształcone w jakiś sposób?
+
+9. Ze String na bool jak się zachowuje?
