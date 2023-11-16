@@ -8,6 +8,8 @@ class Movie {
   //Id isarId = Isar.autoIncrement;
   Id? isarId;
 
+  //final String test;
+  double test2;
   final bool adult;
   final String backdropPath;
   final List<String> genreIds;
@@ -24,6 +26,8 @@ class Movie {
   final int voteCount;
 
   Movie({
+    //required this.test,
+    required this.test2,
     required this.adult,
     required this.backdropPath,
     required this.genreIds,

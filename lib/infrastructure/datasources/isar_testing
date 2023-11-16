@@ -1,20 +1,64 @@
-1. Jak reaguje Isar gdy zmieniaja sie klasy?
+1. Jak reaguje Isar gdy zmieniaja sie klasy? 2. Gdy zostaną dodane nowe pola do klasy? 3. Co się dzieje jak dochodzą nowe pola i jak to zrobić, żeby to nie było problemem?
+    - Po dodaniu nowego pola o nazwie "test" do klasy Movie, aplikacja się uruchamia. Błąd jest wyrzucany po tym jak w bazie danych po linku przechodzę do stron 21-25 of 25.
+      Nowe pole zostało dodane do obiektów już istniejących wcześniej w bazie danych. Wartość nowego pola to null. Przy deklaracji zmiennej użyłem final String test;
+      Błąd jest następującej treści:
+        Lost connection to device.
+        Exception: Unable to terminate com.example.cinemapedia on 1158E600-485E-4A9E-990A-C1F499A1EB4F:
+        ProcessException: Process exited abnormally:
+        An error was encountered processing the command (domain=NSPOSIXErrorDomain, code=3):
+        The operation couldn’t be completed. found nothing to terminate
+        found nothing to terminate
+        Command: /usr/bin/arch -arm64e xcrun simctl terminate 1158E600-485E-4A9E-990A-C1F499A1EB4F com.example.cinemapedia
+      Problem rozwiązało usunięcie wszystkich danych z emulatora. Po otworzeniu aplikacji, baza danych została wyczyszczona i nowe pole jest zapisywane Stringiem.
+    - Drugi raz gdy dodałem również Stringa wszystko przebiegło bez poprzedniego błędu.
+      Poprzedni błąd mógł ewentualnie być spowodowany tym, że odpaliłem wtedy nie tylko build runnera, ale również flutter pub add ...,
+      które zaaktualizowały dependencję, ale to nie powinno spowodować takiego problemu.
+    - Gdy dany obiekt, który został dodany do bazy danych przed zaaktualizowaniem nowego pola miał np. indeks 1, i w miejscu nowej zmiennej miał przypisanego nulla,
+      to po usunięciu go z bazy i dodania na nowo, traci indeks 1 i dostaje indeks ostatni np. 8. Podczas gdy obiekt, który miał poprzednio indeks 5, mając już tą
+      nową zmienną, po usunięciu i dodaniu wskakuje na swoje miejsce z indeksem 5.
 
-2. Gdy zostaną dodane nowe pola do klasy?
-
-3. Co się dzieje jak dochodzą nowe pola i jak to zrobić, żeby to nie było problemem?
-
-4. Gdy pola już istniejące przestają być używane, bo nie są już potrzebne, zy można je usunąć?
+4. Gdy pola już istniejące przestają być używane, bo nie są już potrzebne, czy można je usunąć?
+    - Po usunięciu pola, dane pole automatycznie przestaje istnieć we wszystkich uprzednio zapisanych obiektach.
 
 5. Co zrobić, żeby to nie sprawiało problemu? Mam w movies tytuł i date wydania, stwierdzamy, ze
    data wydania nie jest potrzebna, a dodatkowo doklejamy trzecie pole jakiekolwiek ale innego
    typu niż poprzednie. 1. Dodawnie. 2. usuwanie 3. mieszanka 1 i 2. Nadpisywanie. 4.
+    - Przy updatowaniu nadpisuje tylko dane pole.
 
 6. Co się dzieje w Isar gdy typ zmienia się ze zwykłego na nullable, albo z nullable na zwykły?
+    - Po prostu zmienna zmienia wartość np. z "jabłka" na null. Na odwrót tak samo.
 
 7. Mam w bazie zapisane String, a później zmieniam na null i co się stanie? Z nullable String
    na zwykłego String zmieniam, co się dzieje? Na kilku obiektach, różnych typów zrobić testy.
+    - Między String a String? działa wszystko.
+    - Problem pojawia się gdy zmiana jest np. ze String na double.
+    - Lost connection to device.
+      Exception: Unable to terminate com.example.cinemapedia on 1158E600-485E-4A9E-990A-C1F499A1EB4F:
+      ProcessException: Process exited abnormally:
+      An error was encountered processing the command (domain=NSPOSIXErrorDomain, code=3):
+      The operation couldn’t be completed. found nothing to terminate
+      found nothing to terminate
+        Command: /usr/bin/arch -arm64e xcrun simctl terminate 1158E600-485E-4A9E-990A-C1F499A1EB4F com.example.cinemapedia
+    - The error above pops-up while opening the database through the link.
+    - Baza danych nie odpowiada wyrzucając cały czas ten sam błąd. Trzeba na nowo erase all content. Restart emulatora nie pomaga.
+    ^^ Problem rozwiązany - poniżej info:
+    - Nie wolno zapisywać w trakcie zmian poszczególnych pól w entity, mapper, datasource. Po dokonaniu zmian należy puścić
+      build runnera i dopiero wtedy włączyć na nowo aplikację, wtedy działa.
+    - Poza tym zachowanie takie jak w przypadku bool w punkcie 9.
 
 8. Czy dane zostały zniekształcone w jakiś sposób?
+    - Zmiany na null działają poprawnie, problem pojawia się przy zmianie ze String na double jeżeli zapisze się zmiany zanim się skończy modyfikować wszystkie pola i nie odpali aplikacji na nowo.
+      Wówczas trzeba usunąć wszystkie dane z emulatora.
 
 9. Ze String na bool jak się zachowuje?
+    - Tak samo jak ze Stringa na double jeżeli się nie uruchomi od nowa aplikacji.
+    - Jeżeli się uruchomi od nowa aplikację, to wtedy zamienia wszystkie dane uprzednio zapisane w tej zmiennej w innych obiektach na null.
+    - Jeżeli się zrobi update na obiekcie z powyższej sytuacji, gdzie po zmianie typu pojawił się null, to update aktualizuje poprawnie na wartość typu bool.
+
+9B. Z bool na String?
+    - Działa poprawnie po ponownym uruchomieniu aplikacji. Jeżeli się usunie i na nowo wpisze to wtedy nie wpisuje na to samo miejsce w pamięci. Problem zajętego pustego miejsca?
+    - Aktualizacja działa poprawnie.
+    - Jeżeloi się najpierw zaaktualizuje i później usunie i doda, problem ten sam, że pusty indeks.
+
+W czasie modyfikacji trzeba się powstrzymywać od wciskania command+s z przyzwyczajenia :D .
+

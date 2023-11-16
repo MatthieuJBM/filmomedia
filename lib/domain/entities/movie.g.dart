@@ -67,23 +67,28 @@ const MovieSchema = CollectionSchema(
       name: r'releaseDate',
       type: IsarType.dateTime,
     ),
-    r'title': PropertySchema(
+    r'test2': PropertySchema(
       id: 10,
+      name: r'test2',
+      type: IsarType.double,
+    ),
+    r'title': PropertySchema(
+      id: 11,
       name: r'title',
       type: IsarType.string,
     ),
     r'video': PropertySchema(
-      id: 11,
+      id: 12,
       name: r'video',
       type: IsarType.bool,
     ),
     r'voteAverage': PropertySchema(
-      id: 12,
+      id: 13,
       name: r'voteAverage',
       type: IsarType.double,
     ),
     r'voteCount': PropertySchema(
-      id: 13,
+      id: 14,
       name: r'voteCount',
       type: IsarType.long,
     )
@@ -140,10 +145,11 @@ void _movieSerialize(
   writer.writeDouble(offsets[7], object.popularity);
   writer.writeString(offsets[8], object.posterPath);
   writer.writeDateTime(offsets[9], object.releaseDate);
-  writer.writeString(offsets[10], object.title);
-  writer.writeBool(offsets[11], object.video);
-  writer.writeDouble(offsets[12], object.voteAverage);
-  writer.writeLong(offsets[13], object.voteCount);
+  writer.writeDouble(offsets[10], object.test2);
+  writer.writeString(offsets[11], object.title);
+  writer.writeBool(offsets[12], object.video);
+  writer.writeDouble(offsets[13], object.voteAverage);
+  writer.writeLong(offsets[14], object.voteCount);
 }
 
 Movie _movieDeserialize(
@@ -163,10 +169,11 @@ Movie _movieDeserialize(
     popularity: reader.readDouble(offsets[7]),
     posterPath: reader.readString(offsets[8]),
     releaseDate: reader.readDateTime(offsets[9]),
-    title: reader.readString(offsets[10]),
-    video: reader.readBool(offsets[11]),
-    voteAverage: reader.readDouble(offsets[12]),
-    voteCount: reader.readLong(offsets[13]),
+    test2: reader.readDouble(offsets[10]),
+    title: reader.readString(offsets[11]),
+    video: reader.readBool(offsets[12]),
+    voteAverage: reader.readDouble(offsets[13]),
+    voteCount: reader.readLong(offsets[14]),
   );
   object.isarId = id;
   return object;
@@ -200,12 +207,14 @@ P _movieDeserializeProp<P>(
     case 9:
       return (reader.readDateTime(offset)) as P;
     case 10:
-      return (reader.readString(offset)) as P;
-    case 11:
-      return (reader.readBool(offset)) as P;
-    case 12:
       return (reader.readDouble(offset)) as P;
+    case 11:
+      return (reader.readString(offset)) as P;
+    case 12:
+      return (reader.readBool(offset)) as P;
     case 13:
+      return (reader.readDouble(offset)) as P;
+    case 14:
       return (reader.readLong(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -1410,6 +1419,68 @@ extension MovieQueryFilter on QueryBuilder<Movie, Movie, QFilterCondition> {
     });
   }
 
+  QueryBuilder<Movie, Movie, QAfterFilterCondition> test2EqualTo(
+    double value, {
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'test2',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<Movie, Movie, QAfterFilterCondition> test2GreaterThan(
+    double value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'test2',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<Movie, Movie, QAfterFilterCondition> test2LessThan(
+    double value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'test2',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<Movie, Movie, QAfterFilterCondition> test2Between(
+    double lower,
+    double upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'test2',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
   QueryBuilder<Movie, Movie, QAfterFilterCondition> titleEqualTo(
     String value, {
     bool caseSensitive = true,
@@ -1776,6 +1847,18 @@ extension MovieQuerySortBy on QueryBuilder<Movie, Movie, QSortBy> {
     });
   }
 
+  QueryBuilder<Movie, Movie, QAfterSortBy> sortByTest2() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'test2', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Movie, Movie, QAfterSortBy> sortByTest2Desc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'test2', Sort.desc);
+    });
+  }
+
   QueryBuilder<Movie, Movie, QAfterSortBy> sortByTitle() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'title', Sort.asc);
@@ -1946,6 +2029,18 @@ extension MovieQuerySortThenBy on QueryBuilder<Movie, Movie, QSortThenBy> {
     });
   }
 
+  QueryBuilder<Movie, Movie, QAfterSortBy> thenByTest2() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'test2', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Movie, Movie, QAfterSortBy> thenByTest2Desc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'test2', Sort.desc);
+    });
+  }
+
   QueryBuilder<Movie, Movie, QAfterSortBy> thenByTitle() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'title', Sort.asc);
@@ -2063,6 +2158,12 @@ extension MovieQueryWhereDistinct on QueryBuilder<Movie, Movie, QDistinct> {
     });
   }
 
+  QueryBuilder<Movie, Movie, QDistinct> distinctByTest2() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'test2');
+    });
+  }
+
   QueryBuilder<Movie, Movie, QDistinct> distinctByTitle(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -2153,6 +2254,12 @@ extension MovieQueryProperty on QueryBuilder<Movie, Movie, QQueryProperty> {
   QueryBuilder<Movie, DateTime, QQueryOperations> releaseDateProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'releaseDate');
+    });
+  }
+
+  QueryBuilder<Movie, double, QQueryOperations> test2Property() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'test2');
     });
   }
 

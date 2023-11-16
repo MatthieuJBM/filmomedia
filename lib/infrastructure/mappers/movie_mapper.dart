@@ -19,6 +19,9 @@ class MovieMapper {
             ? 'https://image.tmdb.org/t/p/w500${moviedb.posterPath}'
             : 'https://static.vecteezy.com/system/resources/thumbnails/022/014/063/small/missing-picture-page-for-website-design-or-mobile-app-design-no-image-available-icon-vector.jpg',
         releaseDate: moviedb.releaseDate != null ? moviedb.releaseDate! : DateTime.now(),
+        //test: moviedb.title,
+        test2: 2.5,
+        //test2: moviedb.title,
         title: moviedb.title,
         video: moviedb.video,
         voteAverage: moviedb.voteAverage,
@@ -40,6 +43,9 @@ class MovieMapper {
             ? 'https://image.tmdb.org/t/p/w500${moviedb.posterPath}'
             : 'no-poster',
         releaseDate: moviedb.releaseDate,
+        //test: moviedb.title,
+        test2: 2.3,
+        //test2: moviedb.title,
         title: moviedb.title,
         video: moviedb.video,
         voteAverage: moviedb.voteAverage,
